@@ -1,13 +1,10 @@
 (ns rum.mdc
-  (:require [devcards.core :refer-macros [defcard deftest]]
-            [sablono.core :refer [html]]
-            [rum.core :as rum]
+  (:require #?(:cljs [cljsjs.mdc :as mdc])
             [clojure.string :as str]
-            [cljsjs.mdc :as mdc]))
+            [rum.core :as rum]
+            [sablono.core :refer [html]]))
 
-(enable-console-print!)
-
-(def MDCCheckboxFoundation js/mdc.checkbox.MDCCheckboxFoundation)
+#?(:cljs (def MDCCheckboxFoundation js/mdc.checkbox.MDCCheckboxFoundation))
 
 (defn state
   [& [initial-state]]
@@ -22,78 +19,79 @@
   (rum/ref-node state "input"))
 
 (def checkbox-mixin
-  {:will-mount
-   (fn [state]
-     (let [mdc-state (::mdc-state state)]
-       (swap! mdc-state merge (first (:rum/args state)))
-       (->> (MDCCheckboxFoundation.
-             #js {:addClass
-                  (fn [class]
-                    (prn "ADD CLASS" class)
-                    (swap! mdc-state update :classes conj class))
-                  :removeClass
-                  (fn [class]
-                    (prn "REMOVE CLASS" class)
-                    (swap! mdc-state update :classes disj class))
-                  :registerAnimationEndHandler
-                  (fn [handler]
-                    (some-> (checkbox-root state)
-                            (.addEventListener MDCCheckboxFoundation.strings.ANIM_END_EVENT_NAME handler)))
-                  :deregisterAnimationEndHandler
-                  (fn [handler]
-                    (some-> (checkbox-root state)
-                            (.removeEventListener MDCCheckboxFoundation.strings.ANIM_END_EVENT_NAME handler))
-                    (prn "deregisterAnimationEndHandler"))
-                  :registerChangeHandler
-                  (fn [handler]
-                    (prn "registerChangeHandler")
-                    (.log js/console (checkbox-input state))
-                    (some-> (checkbox-input state)
-                            (.addEventListener "change" handler)))
-                  :deregisterChangeHandler
-                  (fn [handler]
-                    (prn "deregisterChangeHandler")
-                    (.log js/console (checkbox-input state))
-                    (some-> (checkbox-input state)
-                            (.removeEventListener "change" handler)))
-                  :getNativeControl
-                  (fn [handler]
-                    (prn "getNativeControl" (checkbox-input state))
-                    (checkbox-input state))
-                  :forceLayout
-                  (fn [handler]
-                    (some-> (checkbox-input state) (.-offsetWidth)))
-                  :isAttachedToDOM
-                  (fn [handler]
-                    (prn "IS ATTACHED")
-                    (some? (checkbox-input state)))})
-            (assoc state ::adapter))))
-   :did-update
-   (fn [state]
-     (prn "DID UPDATE")
-     (set! (.-indeterminate (checkbox-input state))
-           (-> state ::mdc-state deref :indeterminate))
-     state)
-   ;; :should-update
-   ;; (fn [old-state new-state]
-   ;;   (prn "SHOULD-UPDATE"
-   ;;        (::mdc-state old-state)
-   ;;        (::mdc-state new-state))
-   ;;   (not= @(::mdc-state old-state)
-   ;;         @(::mdc-state new-state)))
-   :did-mount
-   (fn [state]
-     (prn (::mdc-state state))
-     (.init (::adapter state))
-     state)
-   :did-remount
-   (fn [old-state state]
-     (prn "DID REMOUNT" state)
-     state)
-   :will-unmount
-   (fn [state]
-     (.destroy (::adapter state))
-     state)})
+  #?(:clj {}
+     :cljs {:will-mount
+            (fn [state]
+              (let [mdc-state (::mdc-state state)]
+                (swap! mdc-state merge (first (:rum/args state)))
+                (->> (MDCCheckboxFoundation.
+                      #js {:addClass
+                           (fn [class]
+                             (prn "ADD CLASS" class)
+                             (swap! mdc-state update :classes conj class))
+                           :removeClass
+                           (fn [class]
+                             (prn "REMOVE CLASS" class)
+                             (swap! mdc-state update :classes disj class))
+                           :registerAnimationEndHandler
+                           (fn [handler]
+                             (some-> (checkbox-root state)
+                                     (.addEventListener MDCCheckboxFoundation.strings.ANIM_END_EVENT_NAME handler)))
+                           :deregisterAnimationEndHandler
+                           (fn [handler]
+                             (some-> (checkbox-root state)
+                                     (.removeEventListener MDCCheckboxFoundation.strings.ANIM_END_EVENT_NAME handler))
+                             (prn "deregisterAnimationEndHandler"))
+                           :registerChangeHandler
+                           (fn [handler]
+                             (prn "registerChangeHandler")
+                             (.log js/console (checkbox-input state))
+                             (some-> (checkbox-input state)
+                                     (.addEventListener "change" handler)))
+                           :deregisterChangeHandler
+                           (fn [handler]
+                             (prn "deregisterChangeHandler")
+                             (.log js/console (checkbox-input state))
+                             (some-> (checkbox-input state)
+                                     (.removeEventListener "change" handler)))
+                           :getNativeControl
+                           (fn [handler]
+                             (prn "getNativeControl" (checkbox-input state))
+                             (checkbox-input state))
+                           :forceLayout
+                           (fn [handler]
+                             (some-> (checkbox-input state) (.-offsetWidth)))
+                           :isAttachedToDOM
+                           (fn [handler]
+                             (prn "IS ATTACHED")
+                             (some? (checkbox-input state)))})
+                     (assoc state ::adapter))))
+            :did-update
+            (fn [state]
+              (prn "DID UPDATE")
+              (set! (.-indeterminate (checkbox-input state))
+                    (-> state ::mdc-state deref :indeterminate))
+              state)
+            ;; :should-update
+            ;; (fn [old-state new-state]
+            ;;   (prn "SHOULD-UPDATE"
+            ;;        (::mdc-state old-state)
+            ;;        (::mdc-state new-state))
+            ;;   (not= @(::mdc-state old-state)
+            ;;         @(::mdc-state new-state)))
+            :did-mount
+            (fn [state]
+              (prn (::mdc-state state))
+              (.init (::adapter state))
+              state)
+            :did-remount
+            (fn [old-state state]
+              (prn "DID REMOUNT" state)
+              state)
+            :will-unmount
+            (fn [state]
+              (.destroy (::adapter state))
+              state)}))
 
 (rum/defcs checkbox <
   (rum/local {:classes #{}
