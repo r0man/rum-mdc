@@ -1,4 +1,4 @@
-(ns rum.mdc.class
+(ns rum.mdc.classes
   (:refer-clojure :exclude [get remove])
   (:require [rum.core :as rum]))
 
@@ -7,6 +7,9 @@
 
 (defn add [state type class]
   (swap! (::classes state) update type conj class))
+
+(defn has? [state type class]
+  (contains? (get state type) class))
 
 (defn remove [state type class]
   (swap! (::classes state) update type disj class))

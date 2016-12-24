@@ -2,7 +2,7 @@
   (:require #?(:cljs [cljsjs.mdc :as mdc])
             [clojure.string :as str]
             [rum.core :as rum]
-            [rum.mdc.class :as class]
+            [rum.mdc.classes :as class]
             [rum.mdc.events :as events]
             [sablono.core :refer [html]]))
 
