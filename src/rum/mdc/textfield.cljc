@@ -3,6 +3,7 @@
             [clojure.string :as str]
             [rum.core :as rum]
             [rum.mdc.class :as class]
+            [rum.mdc.events :as events]
             [sablono.core :refer [html]]))
 
 (defn native-input [state]
@@ -10,14 +11,6 @@
               #js {:checkValidity (constantly true)
                    :disabled false
                    :value (.-value element)})))
-
-(defn register [state ref event handler]
-  (some-> (rum/ref-node state (name ref))
-          (.addEventListener (name event) handler)))
-
-(defn deregister [state ref event handler]
-  (some-> (rum/ref-node state (name ref))
-          (.removeEventListener (name event) handler)))
 
 (def foundation
   {:will-mount
@@ -27,10 +20,10 @@
               #js {:addClass #(class/add state :root %1)
                    :addClassToHelptext #(class/add state :help %1)
                    :addClassToLabel #(class/add state :label %1)
-                   :deregisterInputBlurHandler #(deregister state :input :blur %1)
-                   :deregisterInputFocusHandler #(deregister state :input :focus %1)
-                   :registerInputBlurHandler #(register state :input :blur %1)
-                   :registerInputFocusHandler #(register state :input :focus %1)
+                   :deregisterInputBlurHandler #(events/deregister state :input :blur %1)
+                   :deregisterInputFocusHandler #(events/deregister state :input :focus %1)
+                   :registerInputBlurHandler #(events/register state :input :blur %1)
+                   :registerInputFocusHandler #(events/register state :input :focus %1)
                    :removeClass #(class/remove state :root %1)
                    :removeClassFromHelp #(class/remove state :help %1)
                    :removeClassFromLabel #(class/remove state :label %1)
