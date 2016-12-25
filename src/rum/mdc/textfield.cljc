@@ -4,18 +4,24 @@
             [rum.core :as rum]
             [rum.mdc.classes :as class]
             [rum.mdc.events :as events]
-            [sablono.core :refer [html]]))
+            [sablono.core :refer [defhtml html]]))
+
+(defn check-validity [state]
+  (if-let [valid? (-> state :rum/args first :valid?)]
+    #(valid? (.-value (rum/ref-node state "input")))
+    (constantly true)))
 
 (defn native-input [state]
   #?(:cljs #(when-let [element (rum/ref-node state "input")]
-              #js {:checkValidity (constantly true)
+              #js {:checkValidity (check-validity state)
                    :disabled false
                    :value (.-value element)})))
 
-(def foundation
+(def textfield-foundation
   {:will-mount
    (fn [state]
-     #?(:cljs
+     #?(:clj state
+        :cljs
         (->> (js/mdc.textfield.MDCTextfieldFoundation.
               #js {:addClass #(class/add state :root %1)
                    :addClassToHelptext #(class/add state :help %1)
@@ -38,13 +44,12 @@
      (.destroy (::foundation state))
      state)})
 
-(rum/defcs textfield <
-  (class/mixin {:help #{} :label #{} :root #{}})
-  foundation
-  [state {:keys [disabled? help id label min-length type value required?]}]
+(rum/defcs textfield < (class/mixin {:help #{} :label #{} :root #{}}) textfield-foundation
+  [state {:keys [disabled? class help id label min-length type value required? on-change valid?]}]
   [:label.mdc-textfield
    {:class
     (cond-> (class/get state :root)
+      class (conj class)
       value (conj "mdc-textfield--upgraded"))
     :ref "root"}
    [:input.mdc-textfield__input
@@ -55,6 +60,7 @@
      :ref "input"
      :required required?
      :min-length min-length
+     :on-change on-change
      :value value}]
    [:div.mdc-textfield__label
     {:class

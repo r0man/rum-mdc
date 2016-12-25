@@ -1,5 +1,5 @@
 (ns rum.mdc.textfield-test
-  (:require [devcards.core :refer-macros [defcard]]
+  (:require [devcards.core :refer [defcard]]
             [sablono.core :refer [html]]
             [rum.mdc.textfield :refer [textfield]]))
 
@@ -44,4 +44,5 @@
 (defcard validation
   (html (textfield
          {:label "Hint text"
-          :required? true})))
+          :required? true
+          :valid? #(>= (count %1) 8)})))
