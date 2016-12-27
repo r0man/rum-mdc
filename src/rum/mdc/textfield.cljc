@@ -45,7 +45,7 @@
      state)})
 
 (rum/defcs textfield < (class/mixin {:help #{} :label #{} :root #{}}) textfield-foundation
-  [state {:keys [disabled? class help id label min-length type value required? on-change valid?]}]
+  [state {:keys [disabled? class help id label min-length type value required? on-change valid?] :as opts}]
   [:label.mdc-textfield
    {:class
     (cond-> (class/get state :root)
@@ -54,6 +54,7 @@
     :ref "root"}
    [:input.mdc-textfield__input
     {:aria-controls help
+     :auto-complete (:auto-complete opts)
      :disabled disabled?
      :id id
      :type (or type "text")
