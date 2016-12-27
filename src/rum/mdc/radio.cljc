@@ -20,7 +20,7 @@
 
 (rum/defcs radio < foundation
   "Render a Material Design radio button."
-  [state {:keys [class disabled? id name on-change]}]
+  [state {:keys [class checked? disabled? id name on-change value]}]
   [:div.mdc-radio
    {:class
     (cond-> #{}
@@ -28,12 +28,14 @@
       disabled? (conj "mdc-radio--disabled"))
     :ref "root"}
    [:input.mdc-radio__native-control
-    {:disabled disabled?
+    {:checked checked?
+     :disabled disabled?
      :id id
      :name name
      :on-change on-change
      :ref "input"
-     :type "radio"}]
+     :type "radio"
+     :value value}]
    [:div.mdc-radio__background
     [:div.mdc-radio__outer-circle]
     [:div.mdc-radio__inner-circle]]])
