@@ -12,10 +12,10 @@
     (constantly true)))
 
 (defn native-input [state]
-  #?(:cljs #(when-let [element (rum/ref-node state "input")]
-              #js {:checkValidity (check-validity state)
-                   :disabled false
-                   :value (.-value element)})))
+  (when-let [element (rum/ref-node state "input")]
+    #?(:cljs #js {:checkValidity (check-validity state)
+                  :disabled false
+                  :value (.-value element)})))
 
 (def textfield-foundation
   {:will-mount
@@ -33,7 +33,7 @@
                    :removeClass #(class/remove state :root %1)
                    :removeClassFromHelp #(class/remove state :help %1)
                    :removeClassFromLabel #(class/remove state :label %1)
-                   :getNativeInput (native-input state)})
+                   :getNativeInput #(native-input state)})
              (assoc state ::foundation))))
    :did-mount
    (fn [state]

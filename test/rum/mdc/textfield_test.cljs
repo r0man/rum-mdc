@@ -42,7 +42,16 @@
           :min-length 8})))
 
 (defcard validation
-  (html (textfield
-         {:label "Hint text"
-          :required? true
-          :valid? #(>= (count %1) 8)})))
+  (html
+   [:div
+    (textfield
+     {:help "pw-validation-msg"
+      :label "Hint text"
+      :required? true
+      :valid? #(>= (count %1) 8)})
+    [:p
+     {:aria-hidden true
+      :class ["mdc-textfield-helptext"
+              "mdc-textfield-helptext--validation-msg"]
+      :id "pw-validation-msg"}
+     "Must be at least 8 characters long"]]))
