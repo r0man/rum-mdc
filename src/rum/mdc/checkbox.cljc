@@ -47,7 +47,7 @@
    [:div.mdc-checkbox__background
     [:svg.mdc-checkbox__checkmark
      {:version "1.1"
-      :xmlns "http://www.w3.org/2000/svg"
+      ;; :xmlns "http://www.w3.org/2000/svg"
       :viewBox "0 0 24 24"}
      [:path.mdc-checkbox__checkmark__path
       {:d "M1.73,12.91 8.1,19.28 22.79,4.59"
