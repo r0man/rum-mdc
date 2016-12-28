@@ -1,5 +1,5 @@
 (ns rum.mdc.checkbox-test
-  (:require [devcards.core :refer [defcard]]
+  (:require [devcards.core :refer-macros [defcard]]
             [rum.core :as rum]
             [rum.mdc.checkbox :refer [checkbox]]
             [sablono.core :refer [html]]))

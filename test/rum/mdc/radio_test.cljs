@@ -1,5 +1,5 @@
 (ns rum.mdc.radio-test
-  (:require [devcards.core :refer [defcard]]
+  (:require [devcards.core :refer-macros [defcard]]
             [rum.core :as rum]
             [rum.mdc.radio :refer [radio]]
             [sablono.core :refer [html]]))
