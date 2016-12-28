@@ -1,5 +1,7 @@
 (ns rum.mdc.radio
-  (:require [rum.core :as rum]))
+  (:require [rum.mdc.classes :as class]
+            [rum.mdc.ripple :as ripple]
+            [rum.core :as rum]))
 
 (def foundation
   {:will-mount
@@ -8,22 +10,22 @@
         :cljs
         (->> (js/mdc.radio.MDCRadioFoundation.
               #js {:getNativeInput #(rum/ref-node state "input")})
-             (assoc state ::foundation))))
+             (assoc state ::radio))))
    :did-mount
    (fn [state]
-     (.init (::foundation state))
+     (.init (::radio state))
      state)
    :will-unmount
    (fn [state]
-     (.destroy (::foundation state))
+     (.destroy (::radio state))
      state)})
 
-(rum/defcs radio < foundation
+(rum/defcs radio < (class/mixin :root) foundation (ripple/foundation ::radio {:unbounded? true})
   "Render a Material Design radio button."
   [state {:keys [class checked? disabled? id name on-change value]}]
   [:div.mdc-radio
    {:class
-    (cond-> #{}
+    (cond-> (class/get state :root)
       class (conj class)
       disabled? (conj "mdc-radio--disabled"))
     :ref "root"}

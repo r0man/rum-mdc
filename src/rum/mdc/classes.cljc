@@ -16,3 +16,7 @@
 
 (defn mixin [initial]
   (rum/local initial ::classes))
+
+(defn mixin [& initial]
+  (-> (reduce #(assoc %1 %2 #{}) {} initial)
+      (rum/local ::classes)))

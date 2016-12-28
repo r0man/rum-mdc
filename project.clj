@@ -1,13 +1,10 @@
 (defproject rum-mdc "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
+  :description "Material Design components for Rum"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.7.1"
   :dependencies [[cljsjs/material-components-web "0.1.1-0"]
-                 [cljsjs/react "15.4.0-0"]
-                 [cljsjs/react-dom "15.4.0-0"]
-                 [devcards "0.2.2"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.293"]
                  [rum "0.10.7"]
@@ -28,12 +25,11 @@
                                    :source-map-timestamp true}}]}
   :figwheel {:css-dirs ["resources/public/css"] }
   :profiles {:dev {:dependencies [[binaryage/devtools "0.8.3"]
+                                  [com.cemerick/piggieback "0.2.1"]
+                                  [devcards "0.2.2"]
                                   [figwheel-sidecar "0.5.8"]
-                                  [com.cemerick/piggieback "0.2.1"]]
-                   ;; need to add dev source path here to get user.clj loaded
+                                  [cljsjs/react "15.4.0-0"]
+                                  [cljsjs/react-dom "15.4.0-0"]]
                    :source-paths ["src" "dev"]
-                   ;; for CIDER
-                   ;; :plugins [[cider/cider-nrepl "0.12.0"]]
-                   :repl-options {; for nREPL dev you really need to limit output
-                                  :init (set! *print-length* 50)
+                   :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})

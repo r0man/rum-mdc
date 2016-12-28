@@ -17,7 +17,7 @@
                   :disabled false
                   :value (.-value element)})))
 
-(def textfield-foundation
+(def foundation
   {:will-mount
    (fn [state]
      #?(:clj state
@@ -34,17 +34,17 @@
                    :removeClassFromHelp #(class/remove state :help %1)
                    :removeClassFromLabel #(class/remove state :label %1)
                    :getNativeInput #(native-input state)})
-             (assoc state ::foundation))))
+             (assoc state ::textfield))))
    :did-mount
    (fn [state]
-     (.init (::foundation state))
+     (.init (::textfield state))
      state)
    :will-unmount
    (fn [state]
-     (.destroy (::foundation state))
+     (.destroy (::textfield state))
      state)})
 
-(rum/defcs textfield < (class/mixin {:help #{} :label #{} :root #{}}) textfield-foundation
+(rum/defcs textfield < (class/mixin :help :label :root) foundation
   [state {:keys [disabled? class help id label min-length type value required? on-change valid?] :as opts}]
   [:label.mdc-textfield
    {:class

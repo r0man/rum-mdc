@@ -7,7 +7,7 @@
 (defn native-control [state]
   (rum/ref-node state "input"))
 
-(def checkbox-foundation
+(def foundation
   {:will-mount
    (fn [state]
      #?(:clj state
@@ -22,17 +22,17 @@
                    :registerAnimationEndHandler #(events/register state :root :animationend %1)
                    :registerChangeHandler #(events/register state :input :change %1)
                    :removeClass #(class/remove state :root %1)})
-             (assoc state ::foundation))))
+             (assoc state ::checkbox))))
    :did-mount
    (fn [state]
-     (.init (::foundation state))
+     (.init (::checkbox state))
      state)
    :will-unmount
    (fn [state]
-     (.destroy (::foundation state))
+     (.destroy (::checkbox state))
      state)})
 
-(rum/defcs checkbox < (class/mixin {:root #{}}) checkbox-foundation
+(rum/defcs checkbox < (class/mixin :root) foundation
   [state {:keys [class] :as opts}]
   [:div.mdc-checkbox
    {:class
