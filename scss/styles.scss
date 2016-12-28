@@ -1,0 +1,10 @@
+@import "material-components-web";
+
+body {
+  @include mdc-typography-base;
+  @include mdc-elevation(0);
+}
+
+.my-drawer {
+  z-index: 1;
+}

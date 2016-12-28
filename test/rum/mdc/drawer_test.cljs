@@ -4,41 +4,37 @@
             [rum.mdc.drawer :refer [drawer]]
             [sablono.core :refer [html]]))
 
-(def open?
+(defonce open?
   (atom false))
 
 (defn my-drawer-content []
-  [:div.mdc-list
+  [:div.my-drawer__content.mdc-list
    [:a.mdc-list-item
     {:href "#!/rum.mdc.button_test"}
-    [:i.material-icons "inbox"]
-    "Button Tests"]
+    "Button Cards"]
    [:a.mdc-list-item
     {:href "#!/rum.mdc.checkbox_test"}
-    [:i..material-icons "star"]
-    "Checkbox Tests"]
+    "Checkbox Cards"]
    [:a.mdc-list-item
     {:href "#!/rum.mdc.drawer_test"}
-    [:i.material-icons "send"]
-    "Drawer Tests"]
+    "Drawer Cards"]
    [:a.mdc-list-item
     {:href "#!/rum.mdc.radio_test"}
-    [:i.material-icons "drafts"]
-    "Radio Tests"]
+    "Radio Cards"]
    [:a.mdc-list-item
     {:href "#!/rum.mdc.textfield_test"}
-    [:i.material-icons "drafts"]
-    "Textfield Tests"]])
+    "Textfield Cards"]])
 
 (rum/defc my-drawer < rum/reactive []
   [:div
    (drawer
     {:header "Header"
+     :class "my-drawer"
      :content (my-drawer-content)
      :on-change #(reset! open? %1)
      :open? (rum/react open?)})
    [:main
-    [:button
+    [:button.mdc-button.mdc-button--raised.mdc-button--primary
      {:on-click #(swap! open? not)}
      (if @open? "Close" "Open") " Drawer"]]])
 
