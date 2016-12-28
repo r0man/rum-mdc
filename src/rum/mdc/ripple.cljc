@@ -4,6 +4,11 @@
             [rum.mdc.classes :as class]
             [rum.mdc.events :as events]))
 
+(defn css-vars-supported?
+  "Returns true if CSS variables are supported, otherwise false."
+  []
+  (true? #?(:cljs (some-> js/window .-CSS (.supports "(--color: red)")))))
+
 (def unbounded-class
   #?(:cljs js/mdc.ripple.MDCRippleFoundation.cssClasses.UNBOUNDED))
 
@@ -30,7 +35,7 @@
               (class/add state :root unbounded-class)
               (class/remove state :root unbounded-class))
             (->> (js/mdc.ripple.MDCRippleFoundation.
-                  #js {:browserSupportsCssVars (constantly true)
+                  #js {:browserSupportsCssVars #(css-vars-supported?)
                        :isUnbounded #(true? unbounded?)
                        :isSurfaceActive (constantly true)
                        :addClass #(class/add state :root %1)
