@@ -29,7 +29,8 @@
                                   [devcards "0.2.2"]
                                   [figwheel-sidecar "0.5.8"]
                                   [cljsjs/react "15.4.0-0"]
-                                  [cljsjs/react-dom "15.4.0-0"]]
+                                  [cljsjs/react-dom "15.4.0-0"]
+                                  [org.clojure/core.async "0.2.395"]]
                    :source-paths ["src" "dev"]
                    :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})

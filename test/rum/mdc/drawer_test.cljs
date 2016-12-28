@@ -1,22 +1,46 @@
 (ns rum.mdc.drawer-test
   (:require [devcards.core :refer-macros [defcard]]
-            [sablono.core :refer [html]]
-            [rum.mdc.drawer :refer [drawer]]))
+            [rum.core :as rum]
+            [rum.mdc.drawer :refer [drawer]]
+            [sablono.core :refer [html]]))
 
-(defcard permanent-drawer
-  (html
-   [:div
-    [:nav {:class "mdc-permanent-drawer mdc-typography"}
-     [:div {:class "mdc-permanent-drawer__toolbar-spacer"}]
-     [:div {:class "mdc-permanent-drawer__content"}
-      [:nav {:id "icon-with-text-demo", :class "mdc-list"}
-       [:a {:class "mdc-list-item mdc-permanent-drawer--selected", :href "#"}
-        [:i {:class "material-icons mdc-list-item__start-detail", :aria-hidden "true"}
-         "inbox"] "Inbox"]
-       [:a {:class "mdc-list-item", :href "#"}
-        [:i {:class "material-icons mdc-list-item__start-detail", :aria-hidden "true"}
-         "star"] "Star"]
-       ]]
-     ]
-    [:div "Toolbar and page content go inside here."]
-    ]))
+(def open?
+  (atom false))
+
+(defn my-drawer-content []
+  [:div.mdc-list
+   [:a.mdc-list-item
+    {:href "#!/rum.mdc.button_test"}
+    [:i.material-icons "inbox"]
+    "Button Tests"]
+   [:a.mdc-list-item
+    {:href "#!/rum.mdc.checkbox_test"}
+    [:i..material-icons "star"]
+    "Checkbox Tests"]
+   [:a.mdc-list-item
+    {:href "#!/rum.mdc.drawer_test"}
+    [:i.material-icons "send"]
+    "Drawer Tests"]
+   [:a.mdc-list-item
+    {:href "#!/rum.mdc.radio_test"}
+    [:i.material-icons "drafts"]
+    "Radio Tests"]
+   [:a.mdc-list-item
+    {:href "#!/rum.mdc.textfield_test"}
+    [:i.material-icons "drafts"]
+    "Textfield Tests"]])
+
+(rum/defc my-drawer < rum/reactive []
+  [:div
+   (drawer
+    {:header "Header"
+     :content (my-drawer-content)
+     :on-change #(reset! open? %1)
+     :open? (rum/react open?)})
+   [:main
+    [:button
+     {:on-click #(swap! open? not)}
+     (if @open? "Close" "Open") " Drawer"]]])
+
+(defcard temporary-drawer
+  (html (my-drawer)))
