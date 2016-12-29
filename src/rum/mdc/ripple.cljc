@@ -1,5 +1,5 @@
 (ns rum.mdc.ripple
-  (:require #?(:cljs [cljsjs.mdc :as mdc])
+  (:require #?(:cljs [cljsjs.material-components :as mdc])
             [rum.core :as rum]
             [rum.mdc.classes :as class]
             [rum.mdc.events :as events]))
@@ -10,7 +10,7 @@
   (true? #?(:cljs (some-> js/window .-CSS (.supports "(--color: red)")))))
 
 (def unbounded-class
-  #?(:cljs js/mdc.ripple.MDCRippleFoundation.cssClasses.UNBOUNDED))
+  #?(:cljs (aget js/mdc.ripple.MDCRippleFoundation.cssClasses "UNBOUNDED")))
 
 (defn- bounding-rect [state]
   (when-let [element (rum/ref-node state :root)]

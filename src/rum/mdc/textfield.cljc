@@ -1,5 +1,5 @@
 (ns rum.mdc.textfield
-  (:require #?(:cljs [cljsjs.mdc :as mdc])
+  (:require #?(:cljs [cljsjs.material-components :as mdc])
             [clojure.string :as str]
             [rum.core :as rum]
             [rum.mdc.classes :as class]

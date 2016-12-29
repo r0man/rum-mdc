@@ -1,5 +1,5 @@
 (ns rum.mdc.checkbox
-  (:require #?(:cljs [cljsjs.mdc :as mdc])
+  (:require #?(:cljs [cljsjs.material-components :as mdc])
             [rum.core :as rum]
             [rum.mdc.classes :as class]
             [rum.mdc.events :as events]))

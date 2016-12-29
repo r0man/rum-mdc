@@ -6,7 +6,8 @@
     "test": "test"
   },
   "dependencies": {
-    "gulp-sass": "^3.0.0"
+    "gulp-sass": "^3.0.0",
+    "material-components-web": "^0.1.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

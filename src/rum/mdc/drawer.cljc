@@ -1,5 +1,5 @@
 (ns rum.mdc.drawer
-  (:require #?(:cljs [cljsjs.mdc :as mdc])
+  (:require #?(:cljs [cljsjs.material-components :as mdc])
             [rum.mdc.classes :as class]
             [rum.core :as rum]
             [rum.mdc.events :as events]
