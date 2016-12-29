@@ -81,9 +81,10 @@
   (fn [event]
     (let [target (.-target event)]
       ;; TODO: Issue with native vs React events? Stop event
-      ;; propagation when clicked on content or spacer, but allow
-      ;; navigation links.
+      ;; propagation only when clicked on any of the following refs.
       (when (or (= target (rum/ref-node state "content"))
+                (= target (rum/ref-node state "header"))
+                (= target (rum/ref-node state "header-content"))
                 (= target (rum/ref-node state "spacer")))
         (click-handler event)))))
 
@@ -168,7 +169,9 @@
        {:ref "spacer"} spacer])
     (when header
       [:header.mdc-temporary-drawer__header
+       {:ref "header"}
        [:div.mdc-temporary-drawer__header-content
+        {:ref "header-content"}
         header]])
     [:nav.mdc-temporary-drawer__content
      {:ref "content"} content]]])
