@@ -3,6 +3,9 @@
 (def tab-data "data-mdc-tabindex")
 (def tab-data-handled "data-mdc-tabindex-handled")
 
+(def touch-supported?
+  (some? #?(:clj nil :cljs (js* "'ontouchstart' in document"))))
+
 (defn make-element-untabbable
   "Remove the tabindex attribute from `element`."
   [element]

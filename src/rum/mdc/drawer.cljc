@@ -30,6 +30,11 @@
   [state]
   (rum/ref-node state "drawer"))
 
+(defn- drawer-element?
+  "Returns true if `element` is the drawer element, otherwise false."
+  [state element]
+  (= element (drawer-element state)))
+
 (defn- root-element
   "Returns the root HTML element."
   [state]
@@ -40,9 +45,6 @@
 
 (defn- drawer-width [state]
   (prn "drawer width"))
-
-(defn- is-drawer [state element]
-  (prn "is drawer"))
 
 (defn- set-translate-x [state value]
   (prn "set-translate-x"))
@@ -85,12 +87,12 @@
                     :removeClass #(remove-class state %1)
                     :hasClass #(class/has? state :root %1)
                     :hasNecessaryDom #(has-necessary-dom? state)
-                    :registerInteractionHandler #(events/register state :root %1 %2)
-                    :deregisterInteractionHandler #(events/deregister state :root %1 %2)
+                    :registerInteractionHandler #(events/register state :root %1 %2 {:passive true})
+                    :deregisterInteractionHandler #(events/deregister state :root %1 %2 {:passive true})
                     :registerDrawerInteractionHandler #(events/register state :drawer %1 %2)
                     :deregisterDrawerInteractionHandler #(events/deregister state :drawer %1 %2)
-                    :registerTransitionEndHandler #(events/register state :drawer :transitionend %2)
-                    :deregisterTransitionEndHandler #(events/register state :drawer :transitionend %2)
+                    :registerTransitionEndHandler #(events/register state :drawer :transitionend %1)
+                    :deregisterTransitionEndHandler #(events/register state :drawer :transitionend %1)
                     :registerDocumentKeydownHandler #(.addEventListener js/document "keydown" %1)
                     :deregisterDocumentKeydownHandler #(.removeEventListener js/document "keydown" %1)
                     :getDrawerWidth #(drawer-width state)
@@ -100,7 +102,7 @@
                     :saveElementTabState #(util/save-element-tab-state %1)
                     :restoreElementTabState #(util/restore-element-tab-state %1)
                     :makeElementUntabbable #(util/make-element-untabbable %1)
-                    :isDrawer #(is-drawer state %1)
+                    :isDrawer #(drawer-element? state %1)
                     :isRtl #(rtl? state)})]
           (assoc state ::drawer foundation))))
    :did-remount
@@ -123,7 +125,7 @@
      state)})
 
 (rum/defcs drawer < (class/mixin :root) foundation
-  [state {:keys [class content header]}]
+  [state {:keys [class content header spacer]}]
   [:aside
    {:class
     (cond-> (class/get state :root)
@@ -131,6 +133,9 @@
     :ref "root"}
    [:nav.mdc-temporary-drawer__drawer
     {:ref "drawer"}
-    [:header.mdc-temporary-drawer__header
-     [:div.mdc-temporary-drawer__header-content header]]
+    (when spacer
+      [:div.mdc-temporary-drawer__toolbar-spacer spacer])
+    (when header
+      [:header.mdc-temporary-drawer__header
+       [:div.mdc-temporary-drawer__header-content header]])
     [:nav.mdc-temporary-drawer__content content]]])
