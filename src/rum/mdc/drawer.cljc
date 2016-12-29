@@ -75,6 +75,36 @@
   [old-state new-state]
   (and (open? old-state) (not (open? new-state))))
 
+(defn wrap-click
+  "Return a wrapped handler that handles"
+  [state click-handler]
+  (fn [event]
+    (let [target (.-target event)]
+      ;; TODO: Issue with native vs React events? Stop event
+      ;; propagation when clicked on content or spacer, but allow
+      ;; navigation links.
+      (when (or (= target (rum/ref-node state "content"))
+                (= target (rum/ref-node state "spacer")))
+        (click-handler event)))))
+
+(defn- register-drawer-interaction-handler
+  "Register a drawer interaction handler."
+  [state]
+  (fn [event handler]
+    (events/register
+     state :drawer event
+     (if (= (name event) "click")
+       (wrap-click state handler) handler))))
+
+(defn- deregister-drawer-interaction-handler
+  "Deregister a drawer interaction handler."
+  [state]
+  (fn [event handler]
+    (events/deregister
+     state :drawer event
+     (if (= (name event) "click")
+       (wrap-click state handler) handler))))
+
 (def foundation
   {:will-mount
    (fn [state]
@@ -89,8 +119,8 @@
                     :hasNecessaryDom #(has-necessary-dom? state)
                     :registerInteractionHandler #(events/register state :root %1 %2 {:passive true})
                     :deregisterInteractionHandler #(events/deregister state :root %1 %2 {:passive true})
-                    :registerDrawerInteractionHandler #(events/register state :drawer %1 %2)
-                    :deregisterDrawerInteractionHandler #(events/deregister state :drawer %1 %2)
+                    :registerDrawerInteractionHandler (register-drawer-interaction-handler state)
+                    :deregisterDrawerInteractionHandler (deregister-drawer-interaction-handler state)
                     :registerTransitionEndHandler #(events/register state :drawer :transitionend %1)
                     :deregisterTransitionEndHandler #(events/register state :drawer :transitionend %1)
                     :registerDocumentKeydownHandler #(.addEventListener js/document "keydown" %1)
@@ -134,8 +164,11 @@
    [:nav.mdc-temporary-drawer__drawer
     {:ref "drawer"}
     (when spacer
-      [:div.mdc-temporary-drawer__toolbar-spacer spacer])
+      [:div.mdc-temporary-drawer__toolbar-spacer
+       {:ref "spacer"} spacer])
     (when header
       [:header.mdc-temporary-drawer__header
-       [:div.mdc-temporary-drawer__header-content header]])
-    [:nav.mdc-temporary-drawer__content content]]])
+       [:div.mdc-temporary-drawer__header-content
+        header]])
+    [:nav.mdc-temporary-drawer__content
+     {:ref "content"} content]]])
