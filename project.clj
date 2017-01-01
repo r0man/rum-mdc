@@ -6,7 +6,7 @@
   :min-lein-version "2.7.1"
   :dependencies [[cljsjs/material-components "0.1.1-0"]
                  [org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.293"]
+                 [org.clojure/clojurescript "1.9.293" :scope "provided"]
                  [rum "0.10.7"]
                  [sablono "0.7.6"]]
   :plugins [[lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]
