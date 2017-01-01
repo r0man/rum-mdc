@@ -32,6 +32,7 @@
                                    :pseudo-names true
                                    :source-map "resources/public/js/rum-mdc.js.map"
                                    :source-map-timestamp true}}]}
+  :deploy-repositories [["releases" :clojars]]
   :figwheel {:css-dirs ["resources/public/css"] }
   :profiles {:dev {:dependencies [[binaryage/devtools "0.8.3"]
                                   [com.cemerick/piggieback "0.2.1"]
