@@ -15,7 +15,8 @@
   :cljsbuild {:builds [{:id "dev"
                         :source-paths ["src" "test"]
                         :figwheel {:open-urls ["http://localhost:3449/index.html"]}
-                        :compiler {:main "rum.mdc.test"
+                        :compiler {:devcards true
+                                   :main "rum.mdc.test"
                                    :asset-path "js/dev"
                                    :output-to  "resources/public/js/rum-mdc.js"
                                    :output-dir "resources/public/js/dev"
