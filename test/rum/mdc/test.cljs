@@ -4,6 +4,7 @@
             [rum.mdc.checkbox-test]
             [rum.mdc.drawer-test]
             [rum.mdc.radio-test]
+            [rum.mdc.snackbar-test]
             [rum.mdc.textfield-test]))
 
 (enable-console-print!)
