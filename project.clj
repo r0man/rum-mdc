@@ -1,4 +1,4 @@
-(defproject rum-mdc "0.0.3-SNAPSHOT"
+(defproject rum-mdc "0.0.3"
   :description "Material Design components for Rum"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
