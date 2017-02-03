@@ -1,4 +1,4 @@
-(defproject rum-mdc "0.0.3"
+(defproject rum-mdc "0.0.4-SNAPSHOT"
   :description "Material Design components for Rum"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -6,9 +6,9 @@
   :min-lein-version "2.7.1"
   :dependencies [[cljsjs/material-components "0.1.1-0"]
                  [org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.293" :scope "provided"]
+                 [org.clojure/clojurescript "1.9.456" :scope "provided"]
                  [rum "0.10.8"]
-                 [sablono "0.7.8-SNAPSHOT"]]
+                 [sablono "0.7.7"]]
   :plugins [[lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]
             [lein-figwheel "0.5.8"]]
   :clean-targets ^{:protect false} ["resources/public/js" "target"]
@@ -37,7 +37,7 @@
   :figwheel {:css-dirs ["resources/public/css"] }
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [devcards "0.2.2"]
-                                  [figwheel-sidecar "0.5.8"]
+                                  [figwheel-sidecar "0.5.9"]
                                   [cljsjs/react "15.4.2-2"]
                                   [cljsjs/react-dom "15.4.2-2"]
                                   [org.clojure/core.async "0.2.395"]]
