@@ -4,9 +4,9 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.7.1"
-  :dependencies [[cljsjs/material-components "0.1.1-0"]
+  :dependencies [[cljsjs/material-components "0.6.0-0"]
                  [org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.456" :scope "provided"]
+                 [org.clojure/clojurescript "1.9.495" :scope "provided"]
                  [rum "0.10.8"]]
   :plugins [[lein-cljsbuild "1.1.5" :exclusions [org.clojure/clojure]]
             [lein-figwheel "0.5.8"]]
@@ -39,7 +39,7 @@
                                   [figwheel-sidecar "0.5.9"]
                                   [cljsjs/react "15.4.2-2"]
                                   [cljsjs/react-dom "15.4.2-2"]
-                                  [org.clojure/core.async "0.2.395"]]
+                                  [org.clojure/core.async "0.3.441"]]
                    :source-paths ["src" "dev"]
                    :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})
