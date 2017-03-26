@@ -1,10 +1,10 @@
-(defproject rum-mdc "0.6.1-SNAPSHOT"
+(defproject rum-mdc "0.7.0-SNAPSHOT"
   :description "Material Design components for Rum"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :min-lein-version "2.7.1"
-  :dependencies [[cljsjs/material-components "0.6.0-0"]
+  :dependencies [[cljsjs/material-components "0.7.0-1"]
                  [org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.495" :scope "provided"]
                  [rum "0.10.8"]]

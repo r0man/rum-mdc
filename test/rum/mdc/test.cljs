@@ -3,6 +3,7 @@
             [rum.mdc.button-test]
             [rum.mdc.checkbox-test]
             [rum.mdc.drawer-test]
+            [rum.mdc.grid-list-test]
             [rum.mdc.radio-test]
             [rum.mdc.snackbar-test]
             [rum.mdc.textfield-test]))
