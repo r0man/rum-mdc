@@ -1,8 +1,5 @@
 (ns rum.mdc.snackbar-test
-  (:require [clojure.spec :as s]
-            [clojure.test.check.generators :as g]
-            [clojure.spec.impl.gen :as gen]
-            [devcards.core :refer-macros [defcard]]
+  (:require [devcards.core :refer-macros [defcard]]
             [sablono.core :refer [html]]
             [rum.core :as rum]
             [rum.mdc.button :refer [button]]
